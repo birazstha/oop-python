@@ -4,12 +4,11 @@ def main():
     bank = Bank()
 
     while True:
-        
         print("\n--- Bank Menu ---")
         print("1. Create Account")
         print("2. Deposit")
         print("3. Withdraw")
-        print("4. Check Balance")
+        print("4. Balance Inquiry")
         print("5. Transaction History")
         print("6. Exit")
 
@@ -19,29 +18,37 @@ def main():
             if choice == "1":
                 name = input("Enter name: ")
                 acc_num = input("Enter account number: ")
-                balance = float(input("Enter initial deposit: "))
-                bank.create_account(name, acc_num, balance)
-                print("Account created.")
+                balance = float(input("Enter initial deposit (£): "))
+                print("Account types: 1. Standard 2. Savings")
+                acc_type_choice = input("Choose account type (1-3): ")
+                acc_type = "standard"
+                if acc_type_choice == "2":
+                    acc_type = "savings"
+                elif acc_type_choice == "3":
+                    acc_type = "checking"
+                bank.createAccount(name, acc_num, balance, acc_type)
+                print(f"Dear {name}, Your account has been created and your current balance is £{balance}")
             elif choice == "2":
                 acc_num = input("Enter account number: ")
+                account = bank.getAccount(acc_num)
                 amount = float(input("Enter amount to deposit: "))
-                account = bank.get_account(acc_num)
                 account.deposit(amount)
-                print("Deposit successful.")
+                print(f"Dear {name}, £{amount} has been deposited into your account.")
             elif choice == "3":
                 acc_num = input("Enter account number: ")
+                account = bank.getAccount(acc_num)
                 amount = float(input("Enter amount to withdraw: "))
-                account = bank.get_account(acc_num)
                 account.withdraw(amount)
-                print("Withdrawal successful.")
+                print(f"Dear {name}, £{amount} has been withdrawn from your account.")
+
             elif choice == "4":
                 acc_num = input("Enter account number: ")
-                account = bank.get_account(acc_num)
-                print(f"Balance: ${account.get_balance()}")
+                account = bank.getAccount(acc_num)
+                print(f"Dear {name}, Your current balance is £{account.getBalance():.2f}")
             elif choice == "5":
                 acc_num = input("Enter account number: ")
-                account = bank.get_account(acc_num)
-                for t in account.get_transaction_history():
+                account = bank.getAccount(acc_num)
+                for t in account.getTransactionHistory():
                     print(t)
             elif choice == "6":
                 break
